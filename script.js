@@ -32,24 +32,35 @@ config:{"a":{"value":0.46,"range":[0,30]},
 "antialias_threshold":{"value":0,"range":[0,0.1]},"noise_height":{"value":0.26,"range":[0,2]},
 "noise_scale":{"value":19.85,"range":[0,100]}},debug:false,gooey:true})
 
-var elems=document.querySelectorAll('h1');
+var elems =document.querySelectorAll('.elem');
+
 elems.forEach(function(elem){
-    var h1s=elems.querySelector("h1");
+    var h1s=elem.querySelectorAll("h1");
+   
     var index=0;
-    document.querySelector('#main',()=>{
-        gsap.to(h1s[index],{
-            top:"-=100%",
-            ease:Expo.easeInOut,
-            duration:1,
-            onComplete:function(){
-                gsap.set(this._targets[0],{top:"100%"});
-            },
-        });
-        index === h1s.length-1 ? index=0:index++;
-        gsap.to(h1s[index],{
-            top:"-=100%",
-            ease:Expo.easeInOut,
-            duration:1,
-        })
+    var animating = false;
+
+
+    document.querySelector('#main').addEventListener("click",function(){
+        if(!animating){
+            animating=true;
+            gsap.to(h1s[index],{
+                top:'-=100%',
+                ease:Expo.easeInOut,
+                duration:1,
+                onComplete:function(){
+                    gsap.set(this._targets[0],{top:"100%"});
+                    animating=false;
+                },
+            });
+            index === h1s.length - 1 ? (index=0):index++;
+            gsap.to(h1s[index],{
+                top:"-=100%",
+                ease:Expo.easeInOut,
+                duration:1,
+            })
+        }
+        
+
     })
 })
